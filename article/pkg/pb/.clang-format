@@ -1,0 +1,8 @@
+---
+Language: Proto
+BasedOnStyle: Google
+ColumnLimit: 120
+SpaceInContainerLiterals: false
+AllowShortFunctionsOnASingleLine: false
+AlignConsecutiveAssignments: true
+...

@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package articlepb;
+option go_package = ".;articlepb";
+
+import "validate/validate.proto";
+
+service ArticleService {
+    // AddArticle
+
+    rpc AddArticle(AddArticleRequest) returns (AddArticleResponse) {
+        // option idempotency_level = IDEMPOTENT;
+        // option (google.api.http) = {
+        //     post: "/articles"
+        //     body: *
+        // };
+    }
+
+    rpc GetArticle(GetArticleRequest) returns (GetArticleResponse) {
+        // option idempotency_level = NO_SIDE_EFFECTS;
+        // option (google.api.http) = {
+        //     get: "/articles/{id}"
+        // };
+    }
+
+    rpc ListArticles(ListArticlesRequest) returns (ListArticlesResponse) {
+        // option idempotency_level = NO_SIDE_EFFECTS;
+        // option (google.api.http) = {
+        //     get: "/articles"
+        // };
+    }
+}
+
+message AddArticleRequest {
+    string title = 1 [(validate.rules).string.min_len = 1];
+    string content = 2 [(validate.rules).string.min_len = 1];
+    string author = 3 [(validate.rules).string = {
+        max_bytes: 256,
+     }];
+}
+
+message AddArticleResponse {
+    int32 status = 1;
+    string message = 2;
+
+    message ArticleId {
+        string id = 1;
+    }
+
+    ArticleId data = 3;
+}
+
+message GetArticleRequest {
+    string id = 1;
+}
+
+message GetArticleResponse {
+    int32 status = 1;
+    string message = 2;
+    Article data = 3;
+}
+
+message ListArticlesRequest {
+}
+
+message ListArticlesResponse {
+    int32 status = 1;
+    string message = 2;
+    repeated Article data = 3;
+}
+
+message Article {
+    string id = 1;
+    string title = 2;
+    string content = 3;
+    string author = 4;
+}
+
