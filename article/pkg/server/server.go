@@ -21,8 +21,14 @@ func NewHTTPServer(ctx context.Context, endpoints Endpoints) http.Handler {
 	))
 
 	r.Methods("GET").Path("/articles/{id}").Handler(httptransport.NewServer(
-		endpoints.AddArticle,
+		endpoints.GetArticle,
 		decodeGetArticleReq,
+		encodeResponse,
+	))
+
+	r.Methods("GET").Path("/articles").Handler(httptransport.NewServer(
+		endpoints.ListArticles,
+		decodeListArticleReq,
 		encodeResponse,
 	))
 
@@ -59,6 +65,12 @@ func decodeGetArticleReq(ctx context.Context, r *http.Request) (interface{}, err
 	req = articlepb.GetArticleRequest{
 		Id: vars["id"],
 	}
+
+	return req, nil
+}
+
+func decodeListArticleReq(ctx context.Context, r *http.Request) (interface{}, error) {
+	req := articlepb.ListArticlesRequest{}
 
 	return req, nil
 }

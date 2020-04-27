@@ -61,16 +61,17 @@ func (s *articleAPIService) GetArticle(ctx context.Context, id string) (*dto.Art
 	return article, nil
 }
 
-// func (api *articleAPIService) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-// 	api.l.Println("Article Request")
+func (s *articleAPIService) ListArticles(ctx context.Context) ([]*dto.Article, error) {
+	logger := log.With(s.log, "method", "ListArticles")
 
-// 	// svc := NewArticleAPIServiceImpl()
-// 	articleObj, err := dto.GetArticle("1")
-// 	if err != nil {
-// 		http.Error(rw, "Bad input", http.StatusInternalServerError)
-// 	}
-// 	err = articleObj.ToJSON(rw)
-// 	if err != nil {
-// 		http.Error(rw, "Unable to marshal json", http.StatusInternalServerError)
-// 	}
-// }
+	articles, err := s.repo.ListArticles(ctx)
+
+	if err != nil {
+		level.Error(logger).Log("err", err)
+		return []*dto.Article{}, err
+	}
+
+	logger.Log("Listing all Articles")
+
+	return articles, nil
+}

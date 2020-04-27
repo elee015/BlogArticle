@@ -6,28 +6,14 @@ option go_package = ".;articlepb";
 import "validate/validate.proto";
 
 service ArticleService {
-    // AddArticle
 
     rpc AddArticle(AddArticleRequest) returns (AddArticleResponse) {
-        // option idempotency_level = IDEMPOTENT;
-        // option (google.api.http) = {
-        //     post: "/articles"
-        //     body: *
-        // };
     }
 
     rpc GetArticle(GetArticleRequest) returns (GetArticleResponse) {
-        // option idempotency_level = NO_SIDE_EFFECTS;
-        // option (google.api.http) = {
-        //     get: "/articles/{id}"
-        // };
     }
 
     rpc ListArticles(ListArticlesRequest) returns (ListArticlesResponse) {
-        // option idempotency_level = NO_SIDE_EFFECTS;
-        // option (google.api.http) = {
-        //     get: "/articles"
-        // };
     }
 }
 

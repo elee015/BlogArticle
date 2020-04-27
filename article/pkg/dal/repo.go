@@ -40,12 +40,34 @@ func (repo *repo) AddArticle(ctx context.Context, article *dto.Article) error {
 
 func (repo *repo) GetArticle(ctx context.Context, id string) (*dto.Article, error) {
 
-	foundArticle := &dto.Article{}
+	var artDALObj dto.Article
 
-	err := repo.db.QueryRow("SELECT * FROM articles WHERE id=$1", id).Scan(foundArticle)
-	if err != nil {
+	err := repo.db.QueryRow("SELECT * FROM articles WHERE id=$1;", id).Scan(&artDALObj.Id, &artDALObj.Title, &artDALObj.Content, &artDALObj.Author)
+
+	switch err {
+	case sql.ErrNoRows:
+		return &dto.Article{}, err
+	case nil:
+		return &artDALObj, nil
+	default:
 		return &dto.Article{}, RepoError
 	}
+}
 
-	return foundArticle, nil
+func (repo *repo) ListArticles(ctx context.Context) ([]*dto.Article, error) {
+
+	var articles []*dto.Article
+
+	rows, err := repo.db.Query("SELECT * FROM articles LIMIT $1;", 80)
+
+	for rows.Next() {
+		var artDALObj dto.Article
+		err = rows.Scan(&artDALObj.Id, &artDALObj.Title, &artDALObj.Content, &artDALObj.Author)
+		if err != nil {
+			return []*dto.Article{}, RepoError
+		}
+		articles = append(articles, &artDALObj)
+	}
+
+	return articles, nil
 }
