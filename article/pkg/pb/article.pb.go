@@ -308,7 +308,7 @@ type ListArticlesResponse struct {
 
 	Status  int32      `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
 	Message string     `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
-	Data    []*Article `protobuf:"bytes,3,rep,name=data,proto3" json:"data,omitempty"`
+	Data    []*Article `protobuf:"bytes,3,rep,name=data,proto3" json:"data"`
 }
 
 func (x *ListArticlesResponse) Reset() {

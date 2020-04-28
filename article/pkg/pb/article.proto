@@ -4,16 +4,28 @@ package articlepb;
 option go_package = ".;articlepb";
 
 import "validate/validate.proto";
+import "google/api/annotations.proto";
 
 service ArticleService {
 
     rpc AddArticle(AddArticleRequest) returns (AddArticleResponse) {
+        option (google.api.http) = {
+            post: "/articles"
+            body: "*"
+        };
     }
+    
 
     rpc GetArticle(GetArticleRequest) returns (GetArticleResponse) {
+        option (google.api.http) = {
+            get: "/articles/{id}"
+        };
     }
 
     rpc ListArticles(ListArticlesRequest) returns (ListArticlesResponse) {
+        option (google.api.http) = {
+            get: "/articles"
+        };
     }
 }
 

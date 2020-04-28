@@ -6,6 +6,8 @@ import (
 	"github.com/blog/article/pkg/dto"
 )
 
+//go:generate mockery -name ArticleAPIService -case underscore -inpkg
+
 // ArticleService describes the service.
 type ArticleAPIService interface {
 	// Add your methods here

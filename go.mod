@@ -10,5 +10,7 @@ require (
 	github.com/gorilla/mux v1.7.4
 	github.com/lib/pq v1.4.0
 	github.com/satori/go.uuid v1.2.0
+	github.com/stretchr/testify v1.5.1
+	github.com/vektra/mockery v0.0.0-20181123154057-e78b021dcbb5 // indirect
 	google.golang.org/protobuf v1.21.0
 )

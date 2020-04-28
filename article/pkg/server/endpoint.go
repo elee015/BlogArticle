@@ -40,6 +40,13 @@ func makeAddArticleEndpoint(s service.ArticleAPIService) endpoint.Endpoint {
 		}
 
 		id, err := s.AddArticle(ctx, req.Title, req.Content, req.Author)
+		if err != nil {
+			return articlepb.AddArticleResponse{
+				Status:  http.StatusInternalServerError,
+				Message: err.Error(),
+				Data:    nil,
+			}, nil
+		}
 
 		return articlepb.AddArticleResponse{
 			Status:  http.StatusCreated,
@@ -47,7 +54,7 @@ func makeAddArticleEndpoint(s service.ArticleAPIService) endpoint.Endpoint {
 			Data: &articlepb.AddArticleResponse_ArticleId{
 				Id: id,
 			},
-		}, err
+		}, nil
 	}
 }
 
@@ -62,7 +69,7 @@ func makeGetArticleEndpoint(s service.ArticleAPIService) endpoint.Endpoint {
 				Status:  http.StatusBadRequest,
 				Message: "Request cannot fulfill",
 				Data:    nil,
-			}, nil
+			}, err
 		}
 
 		return articlepb.GetArticleResponse{
@@ -89,7 +96,7 @@ func makeListArticleEndpoint(s service.ArticleAPIService) endpoint.Endpoint {
 				Status:  http.StatusBadRequest,
 				Message: "Request cannot fulfill",
 				Data:    nil,
-			}, nil
+			}, err
 		}
 
 		for _, article := range articles {

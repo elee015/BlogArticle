@@ -60,6 +60,10 @@ func (repo *repo) ListArticles(ctx context.Context) ([]*dto.Article, error) {
 
 	rows, err := repo.db.Query("SELECT * FROM articles LIMIT $1;", 80)
 
+	if rows == nil {
+		return []*dto.Article{}, nil
+	}
+
 	for rows.Next() {
 		var artDALObj dto.Article
 		err = rows.Scan(&artDALObj.Id, &artDALObj.Title, &artDALObj.Content, &artDALObj.Author)

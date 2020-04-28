@@ -19,7 +19,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const dbsource = "postgresql://localhost:5432/ernie?sslmode=disable"
+const dbsource = "postgresql://postgres:postgres@db:5432/blogdb?sslmode=disable"
 
 func main() {
 
